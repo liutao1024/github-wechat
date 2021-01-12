@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd" > 
+    <!-- default-autowire="byName" default-lazy-init="false">  --> 
+    <!-- default-autowire="byName" default-lazy-init="false"此两个值可以不配置 -->  
+    <description>Quartz Job Setting</description>  
+  	<!-- A.配置调度的任务对应bean的id和自定义class-->  
+ 	<bean id="batchQuartz" class="cn.spring.mvn.task.TaskInitializer" />  
+  	<!-- B.配置调度任务对应的bean的id和执行的方法,作业不并发调度-->  
+ 	<bean id="batchDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    	<property name="targetObject" ref="batchQuartz" />  
+    	<property name="targetMethod" value="initializeTasks" />  
+    	<property name="concurrent" value="false" />  
+  	</bean>  
+  	<!-- C.配置调度任务执行的触发的时间-->  
+  	<bean id="batchTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"><!-- CronTriggerBean -->  
+  		<property name="jobDetail" ref="batchDetail" />  
+     	<property name="cronExpression">  
+	     	<!-- 每分钟的第0秒执行任务调度对定时任务任务进行动态更新 -->  
+	      	<value>0 * * * * ?</value>  <!--  -->
+    	</property>  
+  	</bean>  
+  	
+  	
+  	<!-- 将服务器的启动配置成一个定时任务在一份钟开始的时候启动,且只启动一次 -->
+  	<!-- 
+  	<bean id="serverQuartz" class="cn.spring.mvn.task.TaskInitializer" />  
+ 	<bean id="serverDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    	<property name="targetObject" ref="serverQuartz" />  
+    	<property name="targetMethod" value="initializeTasks" />  
+    	<property name="concurrent" value="false" />  
+  	</bean>  
+  	<bean id="serverTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">CronTriggerBean  
+  		<property name="jobDetail" ref="serverDetail" />  
+     	<property name="cronExpression">  
+	      	<value>0 * * * * ?</value>  
+    	</property>  
+  	</bean> 
+  	-->
+
+  	
+  	<!-- D.Quartz的调度工厂,调度工厂只能有一个,多个调度任务在list中添加 -->  
+  	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+    	<property name="triggers">  
+      		<list>  
+         		<!-- 所有的调度列表-->  
+        		<ref bean="batchTrigger" />  
+				<!-- <ref bean="serverTrigger" />  --> 
+        				<!-- <ref bean="myTrigger2" />  
+        	对应的bean配置：id="myDetail1" 和 id="myTrigger2" 可以对应的并行多配置-对应执行JavaBean和执行时间(各自触发time) -->  
+      		</list>  
+    	</property>  
+  	</bean>  
+</beans>  

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cloud</groupId>
+	<artifactId>wechat-mvc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>wechat-mvc Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<!--<dependency> <groupId>cloud</groupId> <artifactId>cloud-mvn-server-core</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> <dependency> <groupId>cloud</groupId> 
+			<artifactId>cloud-mvn-server-credit</artifactId> <version>0.0.1-SNAPSHOT</version> 
+			</dependency> <dependency> <groupId>cloud</groupId> <artifactId>cloud-mvn-server-deposit</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> <dependency> <groupId>cloud</groupId> 
+			<artifactId>cloud-mvn-server-fund</artifactId> <version>0.0.1-SNAPSHOT</version> 
+			</dependency> <dependency> <groupId>cloud</groupId> <artifactId>cloud-mvn-server-ledger</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> <dependency> <groupId>cloud</groupId> 
+			<artifactId>cloud-mvn-server-loan</artifactId> <version>0.0.1-SNAPSHOT</version> 
+			</dependency> -->
+	</dependencies>
+	<build>
+		<finalName>cloud-wechat</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<username>tomcat</username>
+					<password>tomcat</password>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 将依赖的jar包在mvn clean install时加入到包里 -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass />
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

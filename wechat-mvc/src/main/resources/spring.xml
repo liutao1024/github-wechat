@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+	<!-- 加载数据库配置文件 在spring容器中只有存在一个实例不能分别加载-->
+	<!-- https://blog.csdn.net/sf_climber/article/details/78850038 -->
+	<context:property-placeholder location="classpath:config.properties,classpath:jdbc.mybatis.properties,classpath:jdbc.hibernat.properties" />
+	<!-- 引入hibernate配置文件 -->
+	<import resource="spring-hibernate.xml"/>
+	<!-- 引入mybatis配置文件 -->
+	<import resource="spring-mybatis.xml"/>
+	<!-- 引入quartz配置文件 -->
+	<!-- <import resource="spring-quartz.xml"/> -->
+	<!-- 扫描service自动注入为bean -->
+	<context:component-scan base-package="cn.spring.mvn.basic.hibernate,
+										  cn.spring.mvn.system.entity.service.impl,
+										  cn.spring.mvn.web.entity.service.impl,
+										  cn.spring.mvn.core.**.entity.service.impl" />
+										  <!-- 第一行为hibernat的impl(原来的BaseDao/IMPL),最后一行为加载核心的bean -->
+	<!-- 将所有的service注入到spring容器中供其他类调用 
+		包括comm下的CommDao,CommServiceImpl,以及各模块下的Impl
+	 -->
+	<!-- 将SpringContextUtil交给spring管理 20180823pm@22:47 -->
+	<bean id="SpringContextUtil" class="cn.spring.mvn.comm.util.SpringContextUtil" scope="singleton"></bean>	
+	<!-- <bean id="coreServerImpl" class="cn.spring.mvn.server.service.CoreServerImpl"></bean> -->
+	
+	<!-- 将SocketManager交给spring管理,在Spring容器启动时,启动服务器类 -->
+	<!-- update 20180903 这样子的话,web项目的启动线程会一直卡在socket这儿,项目启动不成功 -->
+	<!-- <bean id="socketManager" class="cn.spring.mvn.server.SocketManager" scope="singleton"  init-method="initializeServer"></bean> -->				  
+</beans>

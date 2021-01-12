@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+						http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+	<!-- 加载IBatis数据库配置文件 在spring容器中只有存在一个实例不能分别加载-->
+	<!-- <context:property-placeholder location="classpath:jdbc.mybatis.properties" /> -->						
+	<!-- 开启AOP注解扫描 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- 配置数据源 -->
+	<bean id="mybatisDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${mybatis.jdbc.driver}"></property>
+		<property name="url" value="${mybatis.jdbc.url}"></property>
+		<property name="username" value="${mybatis.jdbc.username}"></property>
+		<property name="password" value="${mybatis.jdbc.password}"></property>
+	</bean>
+	<!-- 配置sqlSessionFactory -->
+	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mybatisDataSource"></property>
+		<property name="configLocation" value="classpath:spring-mybatis-config.xml"></property>
+		<!-- 20180929  备注:
+			之前一直用的classpath:mapper/*.xml 造成了工程只在web项目resources下取,而我的mapper都是配在自己工程中,在web项目中
+			是引用的jar包,而不会访问jar包中的**mapper.xml所以一直在报   invalid bound statement (not found)  异常
+			而改成现在的方式后就能访问jar中的mapper.xml
+			参考:https://www.cnblogs.com/wlgqo/articles/6001180.html
+		-->
+		<property name="mapperLocations" value="classpath*:mapper/*.xml"></property>
+	</bean>
+	<!-- 自动扫描mapper文件对应的接口类,将其中的接口自动创建成 MapperFactoryBean -->
+	<!-- Basic项目中额IBatisDao 是否可以不要,因为每个dao其实都在下面的配置中包含了 亲测可行-->
+	<!-- 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.spring.mvn.basic.ibatis"></property>
+		<property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory" />
+	</bean> -->
+	<!-- 只有core里面的才使用MyBatis,这个是否可以放开在基础的MyBatis时使用呢 
+					不行若放开报错NOSuchClassExciption,大概的猜想:同时存在时MyBatis不知道该执行谁了
+	-->
+	<!-- 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.spring.mvn.core.*.entity.dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory" />
+	</bean> -->
+	<!-- 通用 Mapper -->
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+	    <property name="basePackage" value="cn.spring.mvn.core.**.entity.dao"/>
+	    <property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory" />
+	</bean>
+	
+	<!-- 配置事务管理器 -->
+	<bean id="mybatisTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mybatisDataSource"></property>
+	</bean>
+	<!-- 事务的传播属性 -->
+	<tx:advice id="mybatisTransactionAdvice" transaction-manager="mybatisTransactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" /><!-- 增 -->
+			<tx:method name="delete*" propagation="REQUIRED" /><!-- 删 -->
+			<tx:method name="update*" propagation="REQUIRED" /><!-- 改 -->
+			<tx:method name="select*" read-only="true" /><!-- 查 -->
+		</tx:attributes>
+	</tx:advice>
+	<!-- 参与事务的service -->
+	<aop:config>
+		<aop:pointcut id="servicePointCut" expression="execution(* cn.spring.mvn.**.entity.service.*.*(..))" />
+		<aop:advisor advice-ref="mybatisTransactionAdvice" pointcut-ref="servicePointCut" />
+	</aop:config>
+</beans> 

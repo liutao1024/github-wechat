@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration>
+	<!-- https://www.cnblogs.com/domi22/p/8047885.html -->
+	<!-- 数据库配置
+	<properties resource="mysql.properties">
+		<property name="jdbc.driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="jdbc.url" value="jdbc:mysql://localhost:3306/student_manager" />
+		<property name="username" value="root" />
+		<property name="password" value="limingnihao" />
+	</properties>
+	-->
+	<!-- 系统设置?? -->
+	<settings>
+		<!-- 
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="enhancementEnabled" value="false" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		-->
+		<!-- 打印查询语句 -->
+       	<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+	<!-- 类的别名 -->
+	<typeAliases>
+		<!-- <typeAlias alias="SystemTransactionInformation" type="cn.spring.mvn.socket.entity.SystemTransactionInformation" /> -->
+		<!-- <typeAlias alias="CoreProduct" type="cn.spring.mvn.socket.entity.CoreProduct" /> -->
+		<!-- 指定到某个包下  -->
+		<package name="cn.spring.mvn.basic.ibatis"/><!-- basic.ibatis下的IBatisPageEntity和IBatisPageResult -->
+		<package name="cn.spring.mvn.core.entity"/><!-- 核心主模块账户/利率/产品等信息定义 -->
+		<package name="cn.spring.mvn.core.credit.entity"/><!-- 核心信用卡模块 -->
+		<package name="cn.spring.mvn.core.deposit.entity"/><!-- 核心存款模块 -->
+		<package name="cn.spring.mvn.core.fund.entity"/><!-- 核心基金模块 -->
+		<package name="cn.spring.mvn.core.ledger.entity"/><!-- 核心内部户模块 -->
+		<package name="cn.spring.mvn.core.loan.entity"/><!-- 核心贷款模块 -->
+	</typeAliases>
+	<!-- 不知道是什么 1
+	<typeHandlers>
+		<typeHandler handler="" />
+	</typeHandlers> 
+	-->
+	<!-- 不知道是什么 2
+	<objectFactory type=""></objectFactory> 
+	-->
+	<!-- batis插件 -->
+    <!-- 
+    <plugins>
+		配置分页插件
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins> -->
+    <!-- 环境变量设置
+	<environments default="">
+		<environment id="">
+			<transactionManager type=""></transactionManager>
+			<dataSource type=""></dataSource>
+		</environment>
+	</environments> 
+	-->
+</configuration>

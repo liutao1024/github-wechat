@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 增加了 xmlns:task 对应xsi:schemaLocation增加了2行 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+		<!-- xmlns:task="http://www.springframework.org/schema/task" 
+			 http://www.springframework.org/schema/task
+			 http://www.springframework.org/schema/task/spring-task-3.2.xsd -->
+
+	<!-- 自动扫描@Controller注入为bean -->
+	<context:component-scan base-package="cn.spring.mvn.web.controller" />
+	<!-- https://blog.csdn.net/HaKimKing/article/details/53145141
+		 对进入 DispatcherServlet 的请求进行筛查, 
+		 如果发现是没有经过映射的请求, 就将该请求交由 WEB 应用服务器默认的Servlet 处理
+	 -->
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<!-- 以下为SpringMVC配置 -->
+	<mvc:annotation-driven>
+		<!-- 返回json数据,@response使用 -->
+		<mvc:message-converters register-defaults="true">
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 配置视图解析器ViewResolver -->
+	<!-- 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<!-- 配置前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp" />
+		<!-- 配置后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+</beans>

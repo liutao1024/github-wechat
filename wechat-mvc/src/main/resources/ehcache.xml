@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<diskStore path="D:/local/ehcache" />
+	<!-- <diskStore path="java.io.tmpdir/ehcache" /> -->
+	<!-- 缓存存放位置 -->
+	<!-- On Windows: java.io.tmpdir:[C:\DOCUME~1\joshua\LOCALS~1\Temp\]
+		 On Solaris: java.io.tmpdir:[/var/tmp/]
+		 On Linux: java.io.tmpdir: [/tmp]
+		 On Mac OS X: java.io.tmpdir: [/tmp] -->
+	<!-- DefaultCache setting. -->
+	<defaultCache maxElementsInMemory="1000" eternal="false"
+		timeToIdleSeconds="120" timeToLiveSeconds="120" maxElementsOnDisk="1000000"
+		overflowToDisk="true" memoryStoreEvictionPolicy="LRU">
+	</defaultCache>
+	<!-- Special objects setting. -->
+	<cache name="cn.spring.mvn.web.entity.*" maxElementsInMemory="2"
+		memoryStoreEvictionPolicy="LRU" eternal="true" diskPersistent="false"
+		overflowToDisk="false" maxElementsOnDisk="1000000" />
+
+</ehcache>
