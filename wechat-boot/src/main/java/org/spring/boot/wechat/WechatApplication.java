@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * http://eurek1:8761/&&http:eureka2:8762/
  */
 @SpringBootApplication
-//@EnableEurekaServer
 public class WechatApplication {
 	//项目启动入口
 	public static void main(String[] args) {
