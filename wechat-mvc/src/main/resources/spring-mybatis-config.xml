@@ -29,6 +29,7 @@
 		<!-- <typeAlias alias="SystemTransactionInformation" type="cn.spring.mvn.socket.entity.SystemTransactionInformation" /> -->
 		<!-- <typeAlias alias="CoreProduct" type="cn.spring.mvn.socket.entity.CoreProduct" /> -->
 		<!-- 指定到某个包下  -->
+		<package name="org.spring.mvc.wechat.entity"/><!-- 微信模块 -->
 		<package name="cn.spring.mvn.basic.ibatis"/><!-- basic.ibatis下的IBatisPageEntity和IBatisPageResult -->
 		<package name="cn.spring.mvn.core.entity"/><!-- 核心主模块账户/利率/产品等信息定义 -->
 		<package name="cn.spring.mvn.core.credit.entity"/><!-- 核心信用卡模块 -->

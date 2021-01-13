@@ -9,7 +9,7 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- 搜索spring控件 -->
-	<context:component-scan base-package="cn.spring.mvn.core.controller"></context:component-scan>
+	<context:component-scan base-package="org.spring.mvc.wechat.controller"></context:component-scan>
 	<!-- 视图页面配置 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

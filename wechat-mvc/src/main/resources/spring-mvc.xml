@@ -16,7 +16,7 @@
 			 http://www.springframework.org/schema/task/spring-task-3.2.xsd -->
 
 	<!-- 自动扫描@Controller注入为bean -->
-	<context:component-scan base-package="cn.spring.mvn.web.controller" />
+	<context:component-scan base-package="org.spring.mvc.wechat.controller" />
 	<!-- https://blog.csdn.net/HaKimKing/article/details/53145141
 		 对进入 DispatcherServlet 的请求进行筛查, 
 		 如果发现是没有经过映射的请求, 就将该请求交由 WEB 应用服务器默认的Servlet 处理

@@ -16,16 +16,16 @@
 	<!-- 引入quartz配置文件 -->
 	<!-- <import resource="spring-quartz.xml"/> -->
 	<!-- 扫描service自动注入为bean -->
-	<context:component-scan base-package="cn.spring.mvn.basic.hibernate,
-										  cn.spring.mvn.system.entity.service.impl,
-										  cn.spring.mvn.web.entity.service.impl,
-										  cn.spring.mvn.core.**.entity.service.impl" />
+	<context:component-scan base-package="org.spring.mvc.basic.hibernate,
+										  org.spring.mvc.system.entity.service.impl,
+										  org.spring.mvc.web.entity.service.impl,
+										  org.spring.mvc.core.**.entity.service.impl" />
 										  <!-- 第一行为hibernat的impl(原来的BaseDao/IMPL),最后一行为加载核心的bean -->
 	<!-- 将所有的service注入到spring容器中供其他类调用 
 		包括comm下的CommDao,CommServiceImpl,以及各模块下的Impl
 	 -->
 	<!-- 将SpringContextUtil交给spring管理 20180823pm@22:47 -->
-	<bean id="SpringContextUtil" class="cn.spring.mvn.comm.util.SpringContextUtil" scope="singleton"></bean>	
+	<bean id="SpringContextUtil" class="org.spring.mvc.wechat.comm.util.SpringContextUtil" scope="singleton"></bean>	
 	<!-- <bean id="coreServerImpl" class="cn.spring.mvn.server.service.CoreServerImpl"></bean> -->
 	
 	<!-- 将SocketManager交给spring管理,在Spring容器启动时,启动服务器类 -->

@@ -56,8 +56,7 @@
 			</props>
 		</property>
 		<!-- 扫描hibernate注解配置的entity -->
-		<property name="packagesToScan" value="cn.spring.mvn.system.entity,
-											   cn.spring.mvn.web.entity" />
+		<property name="packagesToScan" value="org.spring.mvc.wechat.entity" />
 											   <!-- cn.spring.mvn.core.*.entity, core部分不进hibernat-->
 	</bean>
 
@@ -97,7 +96,7 @@
 	<aop:config>
 		<!-- 配置切入点 -->
 		<!-- 第一个*代表所有的返回值类型;第二个*代表所有的类;第三个*代表类所有方法;..代表子或者孙子包;最后一个..代表所有的参数 -->
-		<aop:pointcut id="transactionPointcut" expression="execution(* cn.spring.mvn..*Impl.*(..))" />
+		<aop:pointcut id="transactionPointcut" expression="execution(* org.spring.mvc..*Impl.*(..))" />
 					<!-- 对expression值的说明 : 路径下需要包含所有service和dao包
 											   因为他们的实现(impl)下需要获取事务处理(sessionFactory)变量
 											   由于不知道怎么配置多个源就只有这样配置,但是感觉说会不会对性能有影响呢一下扫描那么多的文件

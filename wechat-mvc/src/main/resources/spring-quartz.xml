@@ -7,7 +7,7 @@
     <!-- default-autowire="byName" default-lazy-init="false"此两个值可以不配置 -->  
     <description>Quartz Job Setting</description>  
   	<!-- A.配置调度的任务对应bean的id和自定义class-->  
- 	<bean id="batchQuartz" class="cn.spring.mvn.task.TaskInitializer" />  
+ 	<bean id="batchQuartz" class="org.spring.mvc.wechat.task.TaskInitializer" />  
   	<!-- B.配置调度任务对应的bean的id和执行的方法,作业不并发调度-->  
  	<bean id="batchDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
     	<property name="targetObject" ref="batchQuartz" />  

@@ -52,7 +52,7 @@
 	</bean> -->
 	<!-- 通用 Mapper -->
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-	    <property name="basePackage" value="cn.spring.mvn.core.**.entity.dao"/>
+	    <property name="basePackage" value="org.spring.mvc.wechat.**.entity.dao"/>
 	    <property name="sqlSessionFactoryBeanName" value="mybatisSqlSessionFactory" />
 	</bean>
 	
@@ -71,7 +71,7 @@
 	</tx:advice>
 	<!-- 参与事务的service -->
 	<aop:config>
-		<aop:pointcut id="servicePointCut" expression="execution(* cn.spring.mvn.**.entity.service.*.*(..))" />
+		<aop:pointcut id="servicePointCut" expression="execution(* org.spring.mvc.wechat.**.entity.service.*.*(..))" />
 		<aop:advisor advice-ref="mybatisTransactionAdvice" pointcut-ref="servicePointCut" />
 	</aop:config>
 </beans> 

@@ -1,4 +1,4 @@
-package org.spring.mvc.wechat.controller;
+package org.spring.boot.wechat.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,16 +8,14 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller("HomeController")
 @RequestMapping(value = "/home/path")
-// 一个@RequestMapping添加多个value值value={"auth","boot-path"}
 public class HomeController {
 	// 打印日志工具
-	public static final Logger LOGGER = Logger.getLogger(HomeController.class);
+//	public static final Logger LOGGER = Logger.getLogger(HomeController.class);
 
 	/**
 	 * @Author LiuTao @Date 2021年1月13日 上午9:45:42 
@@ -28,7 +26,7 @@ public class HomeController {
 	 */
 	@RequestMapping("/wechatCheck")
 	public void wechatCheck(HttpServletRequest request, HttpServletResponse response) {
-		LOGGER.info("-------------------------微信接口校验-------------------------");
+//		LOGGER.info("-------------------------微信接口校验-------------------------");
 		PrintWriter out = null;
 		try {
 			// 设置编码,不然接收到的消息乱码
