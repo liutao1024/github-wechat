@@ -7,7 +7,7 @@
 		<h3>抱歉!</h3>
 		<p>
 			没有找到你需要的页面<br /> 
-			请您与管理员联系。
+			请您与管理员联系.
 		</p>
 		<form action="#">
 			<div class="input-group input-medium">

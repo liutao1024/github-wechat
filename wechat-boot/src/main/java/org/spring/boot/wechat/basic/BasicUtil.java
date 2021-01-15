@@ -1,4 +1,4 @@
-package org.spring.mvc.wechat.comm.util;
+package org.spring.boot.wechat.basic;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -14,10 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * @Author LiuTao @Date 2021年1月15日 下午6:07:46
+ * @ClassName: BasicUtil 
+ * @Description: 基础工具类
+ */
 public class BasicUtil{
-	private static final Logger LOGGER = Logger.getLogger(BasicUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BasicUtil.class);
 	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final SimpleDateFormat SIMPLEDATEFORMAT = new SimpleDateFormat("yyyyMMdd");
 	
@@ -459,6 +465,6 @@ public class BasicUtil{
     public static void main(String[] args) {
 		Date date = new Date();
 		Object o = convertValueTypeForDB(date, Date.class);
-		LOGGER.info(o);
+		LOGGER.info(o.toString());
 	}
 }

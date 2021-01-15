@@ -49,7 +49,7 @@
         		<ref bean="batchTrigger" />  
 				<!-- <ref bean="serverTrigger" />  --> 
         				<!-- <ref bean="myTrigger2" />  
-        	对应的bean配置：id="myDetail1" 和 id="myTrigger2" 可以对应的并行多配置-对应执行JavaBean和执行时间(各自触发time) -->  
+        	对应的bean配置:id="myDetail1" 和 id="myTrigger2" 可以对应的并行多配置-对应执行JavaBean和执行时间(各自触发time) -->  
       		</list>  
     	</property>  
   	</bean>  

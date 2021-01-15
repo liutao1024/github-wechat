@@ -69,7 +69,7 @@ var ReCheck=function(){
 	
 	//F8键盘事件
 	$(document).keydown(function (event) {
-		$('button[data-bb-handler="ok"]',$(".modal-dialog")).trigger("click");//隐藏原弹出窗。
+		$('button[data-bb-handler="ok"]',$(".modal-dialog")).trigger("click");//隐藏原弹出窗.
 	    if (event.keyCode === 119) {//F8  键盘码 119 
 	    	$("#index_recheck").trigger("click");
 	    };

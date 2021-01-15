@@ -343,7 +343,7 @@ var Datatable = function() {
 		 * 增加数据表格中的事件
 		 * selector:时间对象,写法同jQuery 选择器
 		 * event:事件类型,如 click ,dbclick,mouseenter等
-		 * dataKey：主键
+		 * dataKey:主键
 		 * handler:事件触发的方法,data:主键ID值
 		 */
 		addBindEvent : function(selector, event, dataKey, handler) {

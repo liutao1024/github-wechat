@@ -107,7 +107,7 @@ public class ComparatorUtil implements Comparator<Object>{
             @Override
             public int compare(JSONObject objectA, JSONObject objectB) {
                 try {
-                    // 这里是a/b需要处理的业务,需要根据你的规则进行修改。
+                    // 这里是a/b需要处理的业务,需要根据你的规则进行修改.
                     Object objA = objectA.getString(KEY_NAME);
                     Object objB = objectB.getString(KEY_NAME);
     				int result = comparator.compare(objA, objB);

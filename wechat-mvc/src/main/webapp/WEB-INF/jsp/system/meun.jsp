@@ -116,11 +116,11 @@
 					<div class="form-body">
 						<div class="alert alert-danger display-hide">
 							<button class="close" data-close="alert"></button>
-							输入有误,请检查下面表单！返回信息 ：<span class="msg"></span>
+							输入有误,请检查下面表单！返回信息 :<span class="msg"></span>
 						</div>
 						<div class="alert alert-success display-hide">
 							<button class="close" data-close="alert"></button>
-							表单提交成功！返回信息 ：<span class="msg"></span>
+							表单提交成功！返回信息 :<span class="msg"></span>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label">菜单编号</label>

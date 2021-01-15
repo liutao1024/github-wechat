@@ -14,9 +14,9 @@
 <title>userInfo</title>
 </head>
 <body>
-	用户信息 昵称： ${userInfo.userna} 用户id：${userInfo.userid} 用户状态:${userInfo.status } <%-- 注册时间：
+	用户信息 昵称: ${userInfo.userna} 用户id:${userInfo.userid} 用户状态:${userInfo.status } <%-- 注册时间:
 	<fmt:formatDate value="${userInfo.registerTime}" pattern="yyyy-MM-dd HH:mm:ss" />
-	角色：[
+	角色:[
 	<c:forEach items="${ userInfo.acctRoles}" var="role">
 	                    ${role.name }   权限[
          <c:forEach items="${ role.acctAuthorities}" var="authority">
@@ -25,7 +25,7 @@
     </c:forEach>
 	] --%>
 
-	<br /> ajax显示全部用户信息：
+	<br /> ajax显示全部用户信息:
 	<div id="show_all_user"></div>
 </body>
 <script type="text/javascript">

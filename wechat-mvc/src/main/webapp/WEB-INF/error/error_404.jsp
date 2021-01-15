@@ -14,9 +14,9 @@
 		</div>
 		<div class="container error-404">
 			<h1>404</h1>
-			<h2>抱歉, 我们出现了一个问题。</h2>
+			<h2>抱歉, 我们出现了一个问题.</h2>
 			<p>
-				你查找的页面不存在。
+				你查找的页面不存在.
 			</p>
 			<p>
 				<a href="${ctx}/home/path/index">
