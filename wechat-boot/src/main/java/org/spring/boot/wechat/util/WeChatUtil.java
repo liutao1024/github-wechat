@@ -48,7 +48,7 @@ public class WeChatUtil {
 	 * @return
 	 */
 	public static boolean checkSignature(String signature, String timestamp, String nonce) {
-		String[] arr = new String[] { token, timestamp, nonce };
+		String[] arr = new String[] {token, timestamp, nonce};
 		// 排序
 		Arrays.sort(arr);
 		// 生成字符串
@@ -72,7 +72,7 @@ public class WeChatUtil {
 		if (str == null || str.length() == 0) {
 			return null;
 		}
-		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+		char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 		try {
 			MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
 			mdTemp.update(str.getBytes("UTF-8"));
@@ -147,7 +147,7 @@ public class WeChatUtil {
 	 * @return
 	 */
 	private static String byteToHexStr(byte mByte) {
-		char[] Digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+		char[] Digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 		char[] tempArr = new char[2];
 		tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
 		tempArr[1] = Digit[mByte & 0X0F];
@@ -227,13 +227,15 @@ public class WeChatUtil {
 	public static final String EVENT_TYPE_SUBSCRIBE = "subscribe";
 
 	/**
-	 * 事件类型:unsubscribe(取消订阅)
+	 * 事件类型:unSubscribe(取消订阅)
 	 */
 	public static final String EVENT_TYPE_UNSUBSCRIBE = "unsubscribe";
+	
 	/**
 	 * 事件类型:scan(扫描二维码)
 	 */
 	public static final String EVENT_TYPE_SCAN = "SCAN";
+	
 	/**
 	 * 事件类型:CLICK(自定义菜单点击事件)
 	 */
@@ -257,10 +259,10 @@ public class WeChatUtil {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, String> parseXml(HttpServletRequest request) throws Exception {
 		// 将解析结果存储在HashMap中
 		Map<String, String> map = new HashMap<String, String>();
-
 		// 从request中取得输入流
 		InputStream inputStream = request.getInputStream();
 		// 读取输入流
@@ -270,17 +272,15 @@ public class WeChatUtil {
 		Element root = document.getRootElement();
 		// 得到根元素的所有子节点
 		List<Element> elementList = root.elements();
-
 		// 遍历所有子节点
 		for (Element e : elementList)
 			map.put(e.getName(), e.getText());
-
 		// 释放资源
 		inputStream.close();
 		inputStream = null;
-
 		return map;
 	}
+	
 	/**
 	 * 对象到xml处理
 	 */
@@ -289,12 +289,10 @@ public class WeChatUtil {
 			return new PrettyPrintWriter(out) {
 				// 对所有xml节点的转换都增加CDATA标记
 				boolean cdata = true;
-
 				@SuppressWarnings("rawtypes")
 				public void startNode(String name, Class clazz) {
 					super.startNode(name, clazz);
 				}
-
 				protected void writeText(QuickWriter writer, String text) {
 					if (cdata) {
 						writer.write("<![CDATA[");

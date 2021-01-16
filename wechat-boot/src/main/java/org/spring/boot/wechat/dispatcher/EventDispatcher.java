@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spring.boot.wechat.entity.Image;
 import org.spring.boot.wechat.response.ImageMessage;
-import org.spring.boot.wechat.util.HttpPostUploadUtil;
+import org.spring.boot.wechat.util.HttpUtils;
 import org.spring.boot.wechat.util.WeChatUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -45,8 +45,8 @@ public class EventDispatcher {
             textMap.put("name", "testname");
             Map<String, String> fileMap = new HashMap<String, String>();
             fileMap.put("userfile", filepath);
-            String mediaidrs = HttpPostUploadUtil.formUpload(textMap, fileMap);
-            System.out.println(mediaidrs);
+            String mediaidrs = HttpUtils.formUpload(textMap, fileMap);
+            LOGGER.info(mediaidrs);
             JSONObject jsonObject = (JSONObject)JSON.parse(mediaidrs);
     		String mediaid = (String) jsonObject.get("media_id");
             img.setMediaId(mediaid);

@@ -60,7 +60,12 @@ public class HomeController {
 			out.close();
 		}
 	}
-	
+	/**
+	 * @Author LiuTao @Date 2021年1月16日 上午11:19:55 
+	 * @Title: sayHello 
+	 * @Description: TODO(Describe) 
+	 * @return
+	 */
 	@RequestMapping(value = "/sayHello")
 	@ResponseBody
 	public String sayHello() {

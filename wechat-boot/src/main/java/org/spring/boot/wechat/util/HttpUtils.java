@@ -2,19 +2,28 @@ package org.spring.boot.wechat.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
+
+import javax.activation.MimetypesFileTypeMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -28,6 +37,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @Author LiuTao @Date 2021年1月15日 下午2:50:51
@@ -36,6 +47,7 @@ import org.apache.http.util.EntityUtils;
  */
 @SuppressWarnings("deprecation")
 public class HttpUtils {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
 	/**
 	 * @Description: http get请求共用方法
@@ -63,12 +75,11 @@ public class HttpUtils {
 			}
 			request.releaseConnection();
 		}
-
 	}
 	/**
 	 * @Author LiuTao @Date 2021年1月15日 下午3:03:27 
 	 * @Title: sendPost 
-	 * @Description: TODO(Describe) 
+	 * @Description: http发送post请求
 	 * @param reqUrl
 	 * @param params
 	 * @return
@@ -133,7 +144,7 @@ public class HttpUtils {
 	/**
 	 * @Author LiuTao @Date 2021年1月15日 下午3:03:39 
 	 * @Title: sendXmlPost 
-	 * @Description: TODO(Describe) 
+	 * @Description: 发送报文xml格式的post请求,
 	 * @param urlStr
 	 * @param xmlInfo
 	 * @return
@@ -210,7 +221,7 @@ public class HttpUtils {
 	/**
 	 * @Author LiuTao @Date 2021年1月15日 下午2:54:01 
 	 * @Title: getShort 
-	 * @Description: TODO(Describe) 
+	 * @Description: 排序
 	 * @param data
 	 * @return
 	 */
@@ -219,7 +230,9 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 构建get方式的url
+	 * @Author LiuTao @Date 2021年1月16日 下午2:13:32 
+	 * @Title: buildUrl 
+	 * @Description: 构建get方式的url
 	 * @param reqUrl  基础的url地址
 	 * @param params  查询参数
 	 * @return 构建好的url
@@ -231,5 +244,135 @@ public class HttpUtils {
 			query.append(String.format("%s=%s&", key.trim(), params.get(key).trim()));
 		}
 		return reqUrl.trim() + "?" + query.toString().trim();
+	}
+	/**
+	 * 上传图片
+	 * @param urlStr
+	 * @param textMap
+	 * @param fileMap
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String formUpload(Map<String, String> textMap, Map<String, String> fileMap) {
+//		String urlStr;
+		String res = "";
+//		mediaUrl = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=";
+		RedisUtil redis = SpringUtil.getBean(RedisUtil.class);
+		String access_token = (String) redis.get("access_token");
+		LOGGER.info(access_token);
+//		String access_token = (String) redisUtil.get("access_token");
+//		String imageUrl = mediaUrl.trim() + "access_token" + "&type=image";
+		String imageUrl = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
+		LOGGER.info(imageUrl);
+		HttpURLConnection conn = null;
+		String BOUNDARY = "---------------------------123821742118716"; // boundary就是request头和上传文件内容的分隔符
+		try {
+			URL url = new URL(imageUrl);
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(30000);
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+			conn.setUseCaches(false);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Connection", "Keep-Alive");
+			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.6)");
+			conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+
+			OutputStream out = new DataOutputStream(conn.getOutputStream());
+			// text
+			if (textMap != null) {
+				StringBuffer strBuf = new StringBuffer();
+				Iterator<?> iter = textMap.entrySet().iterator();
+				while (iter.hasNext()) {
+					Map.Entry entry = (Map.Entry) iter.next();
+					String inputName = (String) entry.getKey();
+					String inputValue = (String) entry.getValue();
+					if (inputValue == null) {
+						continue;
+					}
+					strBuf.append("\r\n");
+					strBuf.append("--");
+					strBuf.append(BOUNDARY);
+					strBuf.append("\r\n");
+					strBuf.append("Content-Disposition: form-data; name=\"");
+					strBuf.append(inputName);
+					strBuf.append("\"\r\n\r\n");
+					strBuf.append(inputValue);
+				}
+				out.write(strBuf.toString().getBytes());
+			}
+
+			// file
+			if (fileMap != null) {
+				Iterator<?> iter = fileMap.entrySet().iterator();
+				while (iter.hasNext()) {
+					Map.Entry entry = (Map.Entry) iter.next();
+					String inputName = (String) entry.getKey();
+					String inputValue = (String) entry.getValue();
+					if (inputValue == null) {
+						continue;
+					}
+					File file = new File(inputValue);
+					String filename = file.getName();
+					String contentType = new MimetypesFileTypeMap().getContentType(file);
+					if (filename.endsWith(".jpg")) {
+						contentType = "image/jpg";
+					}
+					if (contentType == null || contentType.equals("")) {
+						contentType = "application/octet-stream";
+					}
+
+					StringBuffer strBuf = new StringBuffer();
+					strBuf.append("\r\n");
+					strBuf.append("--");
+					strBuf.append(BOUNDARY);
+					strBuf.append("\r\n");
+					strBuf.append("Content-Disposition: form-data; name=\"");
+					strBuf.append(inputName);
+					strBuf.append("\"; filename=\"");
+					strBuf.append(filename);
+					strBuf.append("\"\r\n");
+					strBuf.append("Content-Type:");
+					strBuf.append(contentType);
+					strBuf.append("\r\n\r\n");
+					out.write(strBuf.toString().getBytes());
+
+					DataInputStream in = new DataInputStream(new FileInputStream(file));
+					int bytes = 0;
+					byte[] bufferOut = new byte[1024];
+					while ((bytes = in.read(bufferOut)) != -1) {
+						out.write(bufferOut, 0, bytes);
+					}
+					in.close();
+				}
+			}
+
+			byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();
+			out.write(endData);
+			out.flush();
+			out.close();
+
+			// 读取返回数据
+			StringBuffer strBuf = new StringBuffer();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				strBuf.append(line);
+				strBuf.append("\n");
+			}
+			res = strBuf.toString();
+			reader.close();
+			reader = null;
+		} catch (Exception e) {
+			LOGGER.info("----发送POST请求出错----" + imageUrl);
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				conn.disconnect();
+				conn = null;
+			}
+		}
+		return res;
 	}
 }

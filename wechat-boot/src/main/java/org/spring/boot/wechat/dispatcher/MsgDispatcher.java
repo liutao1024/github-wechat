@@ -38,7 +38,7 @@ public class MsgDispatcher {
         	txtmsg.setFromUserName(mpid);
         	txtmsg.setCreateTime(new Date().getTime());
         	txtmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_TEXT);
-        	txtmsg.setContent("你好,欢迎您的关注！");
+        	txtmsg.setContent("你好,欢迎您的关注！严楚瑶");
         	return WeChatUtil.textMessageToXml(txtmsg);
         }
         if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息
