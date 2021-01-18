@@ -1,4 +1,4 @@
-package org.spring.boot.wechat.redis;
+package org.spring.boot.wechat.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
