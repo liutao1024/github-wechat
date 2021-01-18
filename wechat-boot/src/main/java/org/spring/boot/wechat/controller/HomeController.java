@@ -105,7 +105,7 @@ public class HomeController {
 	/**
 	 * @Author LiuTao @Date 2021年1月15日 上午9:30:14 
 	 * @Title: doPost 
-	 * @Description:   接收微信端消息处理并做分发
+	 * @Description: 接收微信端消息并做分发处理
 	 */
     @RequestMapping(value = "/wechatCheck", method = RequestMethod.POST)
     public void doPost(HttpServletRequest request,HttpServletResponse response) {
