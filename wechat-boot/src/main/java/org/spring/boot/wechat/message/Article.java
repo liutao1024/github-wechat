@@ -1,4 +1,4 @@
-package org.spring.boot.wechat.entity;
+package org.spring.boot.wechat.message;
 
 public class Article {
 	// 图文消息名称

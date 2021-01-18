@@ -2,7 +2,7 @@ package org.spring.boot.wechat.response;
 
 import java.util.List;
 
-import org.spring.boot.wechat.entity.Article;
+import org.spring.boot.wechat.message.Article;
 
 public class NewsMessage extends BaseMessage {
 	// 图文消息个数,限制为10条以内

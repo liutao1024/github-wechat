@@ -16,6 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +26,12 @@ import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 import javax.activation.MimetypesFileTypeMap;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSessionContext;
+import javax.net.ssl.TrustManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,12 +48,15 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @Author LiuTao @Date 2021年1月15日 下午2:50:51
  * @ClassName: HttpUtils 
  * @Description: TODO(Describe)
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "rawtypes"})
 public class HttpUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
@@ -245,6 +256,21 @@ public class HttpUtils {
 		}
 		return reqUrl.trim() + "?" + query.toString().trim();
 	}
+	
+	public String urlStr;
+	static RedisUtil redis = SpringBeanUtil.getBean(RedisUtil.class);
+	public HttpUtils() {
+		urlStr = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token="
+				+ (String) redis.get("access_token")
+				+ "&type=image";
+	}
+
+	public HttpUtils(String type) {
+		urlStr = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token="
+				+ (String) redis.get("access_token")
+				+ "&type="
+				+ type;
+	}
 	/**
 	 * 上传图片
 	 * @param urlStr
@@ -252,20 +278,44 @@ public class HttpUtils {
 	 * @param fileMap
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
-	public static String formUpload(Map<String, String> textMap, Map<String, String> fileMap) {
+	public String formUpload(Map<String, String> textMap, Map<String, String> fileMap) {
 //		String urlStr;
 		String res = "";
 //		mediaUrl = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=";
-		RedisUtil redis = SpringUtil.getBean(RedisUtil.class);
 		String access_token = (String) redis.get("access_token");
 		LOGGER.info(access_token);
 //		String access_token = (String) redisUtil.get("access_token");
 //		String imageUrl = mediaUrl.trim() + "access_token" + "&type=image";
-		String imageUrl = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
+		String imageUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
 		LOGGER.info(imageUrl);
+		/**
+		 * No subject alternative DNS name matching file.api.weixin.qq.com found.
+		 */
+		try {
+			// 直接通过主机认证
+			HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+				@Override
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			// 配置认证管理器
+			TrustManager[] trustManageres = {new TrustAllTrustManager()};
+			SSLContext sslContext = SSLContext.getInstance("SSL");
+			SSLSessionContext sslSessionContext = sslContext.getServerSessionContext();
+			sslSessionContext.setSessionTimeout(0);
+			sslContext.init(null, trustManageres, null);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			//  激活主机认证
+			HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		}
+		
 		HttpURLConnection conn = null;
-		String BOUNDARY = "---------------------------123821742118716"; // boundary就是request头和上传文件内容的分隔符
+		String BOUNDARY = "------------------" + System.currentTimeMillis() + "------------------"; // boundary就是request头和上传文件内容的分隔符
 		try {
 			URL url = new URL(imageUrl);
 			conn = (HttpURLConnection) url.openConnection();
@@ -292,7 +342,6 @@ public class HttpUtils {
 						continue;
 					}
 					strBuf.append("\r\n");
-					strBuf.append("--");
 					strBuf.append(BOUNDARY);
 					strBuf.append("\r\n");
 					strBuf.append("Content-Disposition: form-data; name=\"");
@@ -325,7 +374,6 @@ public class HttpUtils {
 
 					StringBuffer strBuf = new StringBuffer();
 					strBuf.append("\r\n");
-					strBuf.append("--");
 					strBuf.append(BOUNDARY);
 					strBuf.append("\r\n");
 					strBuf.append("Content-Disposition: form-data; name=\"");
@@ -348,7 +396,7 @@ public class HttpUtils {
 				}
 			}
 
-			byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();
+			byte[] endData = ("\r\n" + BOUNDARY + "\r\n").getBytes();
 			out.write(endData);
 			out.flush();
 			out.close();
@@ -362,6 +410,7 @@ public class HttpUtils {
 				strBuf.append("\n");
 			}
 			res = strBuf.toString();
+			LOGGER.info("----相应结果----" + res);
 			reader.close();
 			reader = null;
 		} catch (Exception e) {
@@ -373,6 +422,116 @@ public class HttpUtils {
 				conn = null;
 			}
 		}
+		/**
+		 * 处理非正常响应
+		 */
+//		res.get
 		return res;
 	}
+	/**
+	 * @Author LiuTao @Date 2021年1月18日 上午10:08:42 
+	 * @Title: formUpload 
+	 * @Description: TODO(Describe) 
+	 * @param filePath
+	 * @param type
+	 * @return
+	 * @throws IOException
+	 */
+	public String formUpload(String filePath, String type) throws IOException {
+        File file = new File(filePath);// 判断文件是否存在
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException("文件不存在");
+        }
+		try {
+			//  直接通过主机认证
+			HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+				@Override
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			//  配置认证管理器
+			TrustManager[] trustManageres = {new TrustAllTrustManager()};
+			SSLContext sslContext = SSLContext.getInstance("SSL");
+			SSLSessionContext sslSessionContext = sslContext.getServerSessionContext();
+			sslSessionContext.setSessionTimeout(0);
+			sslContext.init(null, trustManageres, null);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+			//  激活主机认证
+			HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		} catch (KeyManagementException e) {
+			e.printStackTrace();
+		}
+        System.out.println(urlStr);
+        URL urlobj = new URL(urlStr);
+        // 使用HttpURLConnection连接
+        HttpURLConnection con = (HttpURLConnection) urlobj.openConnection();
+        con.setRequestMethod("POST");
+        con.setDoInput(true);
+        con.setDoOutput(true);
+        con.setUseCaches(false); // 使用post提交需 要设置忽略缓存
+        // 设置请求头信息
+        con.setRequestProperty("Connection", "Keep- Alive");
+        con.setRequestProperty("Charset", "UTF-8");
+        // 设置边界
+        String BOUNDARY = "------------------" + System.currentTimeMillis() + "------------------";
+        con.setRequestProperty("Content -Type", "multipart/ form-data; boundary=" + BOUNDARY);
+        StringBuilder sb = new StringBuilder();
+        sb.append(BOUNDARY);
+        sb.append("\r\n");
+        sb.append("Content -Di sposition: form-data ;name=\"file\";filename=\"");
+        sb.append(file.getName());
+        sb.append("\"\r\n");
+        sb.append("Content - Type:applicat ion/octet-stream\r\n\r\n");
+        byte[] head = sb.toString().getBytes("utf-8");
+        // 获得输出流
+        OutputStream out = new DataOutputStream(con.getOutputStream());// 输出表头
+        out.write(head);
+        // 文件正文部分
+        // 把文件已流文件的方式推入到url中
+        DataInputStream in = new DataInputStream(new FileInputStream(file));
+        int bytes = 0;
+        byte[] bufferOut = new byte[1024];
+        while ((bytes = in.read(bufferOut)) != -1) {
+            out.write(bufferOut, 0, bytes);
+        }
+        in.close();
+        // 结尾部分
+        byte[] foot = ("\r\n--" + BOUNDARY + "--\r\n").getBytes("utf-8");// 定义最后数据分隔线
+        out.write(foot);
+        out.flush();
+        out.close();
+        StringBuffer buffer = new StringBuffer();
+        BufferedReader reader = null;
+        String result = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            if (result == null) {
+                result = buffer.toString();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            // TODO: handle finally clause
+            if (reader != null) {
+                reader.close();
+            }
+        }
+        JSONObject jsonObj = (JSONObject) JSON.parse(result);
+        System.out.println(jsonObj);
+        String typeName = "media_id";
+        //当类型不是image时,返回的不再是media_id这个属性.而是将其类型作为前缀返回
+        if (!"image".equals(type)) {
+            typeName = type + "_media_id";
+        }
+        String mediaId = jsonObj.getString(typeName);// 从json中获取media_id
+        return mediaId;
+    }
 }

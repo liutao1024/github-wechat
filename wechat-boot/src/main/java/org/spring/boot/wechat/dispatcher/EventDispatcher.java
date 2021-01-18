@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.boot.wechat.entity.Image;
+import org.spring.boot.wechat.message.Image;
 import org.spring.boot.wechat.response.ImageMessage;
 import org.spring.boot.wechat.util.HttpUtils;
 import org.spring.boot.wechat.util.WeChatUtil;
@@ -41,14 +41,14 @@ public class EventDispatcher {
             imgmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_Image);
             Image img = new Image();
             String filepath = "F:\\MasterFUck\\未标题-1.jpg";
+            HttpUtils httpUtils = new HttpUtils();
             Map<String, String> textMap = new HashMap<String, String>();
             textMap.put("name", "testname");
             Map<String, String> fileMap = new HashMap<String, String>();
             fileMap.put("userfile", filepath);
-            String mediaidrs = HttpUtils.formUpload(textMap, fileMap);
-            LOGGER.info(mediaidrs);
+            String mediaidrs = httpUtils.formUpload(textMap, fileMap);
             JSONObject jsonObject = (JSONObject)JSON.parse(mediaidrs);
-    		String mediaid = (String) jsonObject.get("media_id");
+    		String mediaid = jsonObject.getString("media_id");
             img.setMediaId(mediaid);
             imgmsg.setImage(img);
             return WeChatUtil.imageMessageToXml(imgmsg);

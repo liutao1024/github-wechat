@@ -2,15 +2,22 @@ package org.spring.boot.wechat.dispatcher;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.boot.wechat.entity.Article;
+import org.spring.boot.wechat.message.Article;
+import org.spring.boot.wechat.message.Music;
+import org.spring.boot.wechat.response.MusicMessage;
 import org.spring.boot.wechat.response.NewsMessage;
 import org.spring.boot.wechat.response.TextMessage;
+import org.spring.boot.wechat.util.HttpUtils;
 import org.spring.boot.wechat.util.WeChatUtil;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @Author LiuTao @Date 2021年1月15日 下午5:59:00
@@ -30,6 +37,7 @@ public class MsgDispatcher {
     	String msgType = map.get("MsgType");// 消息类型
 		String openid = map.get("FromUserName"); // 用户openid
 		String mpid = map.get("ToUserName"); // 公众号原始ID
+		String content = map.get("Content");//
         if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_TEXT)) { // 文本消息
         	LOGGER.info("==============这是文本消息！==============");
         	// 普通文本消息
@@ -38,7 +46,56 @@ public class MsgDispatcher {
         	txtmsg.setFromUserName(mpid);
         	txtmsg.setCreateTime(new Date().getTime());
         	txtmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_TEXT);
-        	txtmsg.setContent("你好,欢迎您的关注！严楚瑶");
+        	
+        	StringBuffer sb = new StringBuffer();
+			sb.append("欢迎关注史上最帅公众号：\n\n ");
+			sb.append("1、歌德你好   \n\n ");
+			sb.append("2、听首歌吧   \n\n ");
+			sb.append("3、语音回复   \n\n ");
+			sb.append("回复?调出主菜单哦哦   \n ");
+			String context = sb.toString();
+//        	txtmsg.setContent("你好,欢迎您的关注！严楚瑶");
+        	txtmsg.setContent(context);
+        	
+        	if ("1".equals(content)) {
+                txtmsg.setContent("歌德你好！");
+            } else if ("2".equals(content)) {
+                // Test test=new Test();
+                // test.image();
+                MusicMessage mucmsg = new MusicMessage();
+                mucmsg.setToUserName(openid);
+                mucmsg.setFromUserName(mpid);
+                mucmsg.setCreateTime(new Date().getTime());
+                mucmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_MUSIC);
+
+                Music music = new Music();
+                HttpUtils util = new HttpUtils("thumb");
+                String filepath = "F:\\MasterFUck\\未标题-1.jpg";
+                Map<String, String> textMap = new HashMap<String, String>();
+                textMap.put("name", "testname");
+                Map<String, String> fileMap = new HashMap<String, String>();
+                fileMap.put("userfile", filepath);
+                String mediaidrs = util.formUpload(textMap, fileMap);
+                System.out.println(mediaidrs);
+                
+               
+                String mediaid =  (String)((JSONObject) JSON.parse(mediaidrs)).get("thumb_media_id");
+                System.out.println(mediaid);
+                music.setTitle("十年");
+                music.setThumbMediaId(mediaid);
+                music.setDescription("十年——陈奕迅");
+                music.setMusicUrl("http://music.163.com/#/song?id=31877628");
+                music.setHQMusicUrl("http://music.163.com/#/song?id=31877628");
+                mucmsg.setMusic(music);
+                return WeChatUtil.musicMessageToXml(mucmsg);
+            } else if ("3".equals(content)) {
+                txtmsg.setContent("语音回复！");
+            } else if ("？".equals(content)) {
+                txtmsg.setContent(context);
+            } else {
+                txtmsg.setContent("你好，欢迎来到gede博客！");
+            }
+        	
         	return WeChatUtil.textMessageToXml(txtmsg);
         }
         if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息

@@ -1,6 +1,6 @@
 package org.spring.boot.wechat.response;
 
-import org.spring.boot.wechat.entity.Music;
+import org.spring.boot.wechat.message.Music;
 import org.spring.boot.wechat.request.BaseMessage;
 
 public class MusicMessage extends BaseMessage {

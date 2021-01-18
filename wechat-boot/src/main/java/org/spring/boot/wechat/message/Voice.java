@@ -1,6 +1,6 @@
-package org.spring.boot.wechat.entity;
+package org.spring.boot.wechat.message;
 
-public class Image {
+public class Voice {
 	private String MediaId;
 
 	public String getMediaId() {
@@ -10,4 +10,5 @@ public class Image {
 	public void setMediaId(String mediaId) {
 		MediaId = mediaId;
 	}
+
 }

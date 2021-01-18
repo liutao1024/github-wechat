@@ -38,10 +38,13 @@ public class WeChatTask {
 	 * @Author LiuTao @Date 2021年1月15日 下午9:53:39 
 	 * @Title: getToken_getTicket 
 	 * @Description: 定时获取access_token,并存放起来备用,token有效期7200秒
+	 * 
+	 * cron表达式由6或7个空格分隔的时间字段组成:秒 分钟 小时 日期 月份 星期 年（可选）
 	 * @throws Exception
 	 */
-	@Scheduled(cron = "0 0/2 * * * ?")
+	@Scheduled(cron = "0 0 0/1 * * ?")
 //	@Scheduled(cron = "0/5 * * * * ?")
+//	@Scheduled(fixedRate=5000)//指定间隔时间()
 	public void getToken_getTicket() throws Exception {
 		LOGGER.info(LocalDateTime.now().toLocalTime() + "====获取token开始====");
 		Map<String, String> params = new HashMap<String, String>();
@@ -50,11 +53,19 @@ public class WeChatTask {
 		params.put("secret", appSecret);
 		String jstoken = HttpUtils.sendGet(tokenUrl, params);
 		JSONObject jsonObject = (JSONObject)JSON.parse(jstoken);
-		String access_token = (String) jsonObject.get("access_token"); // 获取到token并赋值保存
+		String access_token = jsonObject.getString("access_token"); // 获取到token并赋值保存
 		//将token存在缓存中,存在redis???是否可以缓存在spring容器的
 		//GlobalConstants.interfaceUrlProperties.put("access_token", access_token);
-		redisUtil.set("access_token", access_token);
+		redisUtil.set("access_token", access_token, 7200L);
 		LOGGER.info(LocalDateTime.now().toLocalTime() + "====获取的token为====" + access_token);
 	}
 
+	/**
+	 * @Author LiuTao @Date 2021年1月18日 下午2:12:01 
+	 * @Title: sendMassageToAll 
+	 * @Description: 群发消息(订阅好每天1条)
+	 */
+	public void sendMassageToAll(){
+		
+	}
 }

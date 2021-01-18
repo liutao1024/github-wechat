@@ -1,4 +1,4 @@
-package org.spring.boot.wechat.entity;
+package org.spring.boot.wechat.message;
 
 public class Music {
 	// 音乐名称

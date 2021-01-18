@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.spring.boot.wechat.entity.Article;
+import org.spring.boot.wechat.message.Article;
 import org.spring.boot.wechat.response.ImageMessage;
 import org.spring.boot.wechat.response.MusicMessage;
 import org.spring.boot.wechat.response.NewsMessage;

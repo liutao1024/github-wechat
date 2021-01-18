@@ -1,6 +1,6 @@
 package org.spring.boot.wechat.response;
 
-import org.spring.boot.wechat.entity.Image;
+import org.spring.boot.wechat.message.Image;
 
 public class ImageMessage extends NewsMessage {
 	private Image Image;

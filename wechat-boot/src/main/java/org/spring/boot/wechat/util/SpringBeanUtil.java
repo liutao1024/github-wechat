@@ -13,26 +13,18 @@ import org.springframework.stereotype.Component;
  * @Description: TODO(Describe)
  */
 @Component
-public class SpringUtil implements ApplicationContextAware {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpringUtil.class);
+public class SpringBeanUtil implements ApplicationContextAware {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBeanUtil.class);
 	private static ApplicationContext applicationContext;
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		LOGGER.info("====================================");
-		if (SpringUtil.applicationContext == null) {
-			SpringUtil.applicationContext = applicationContext;
+		if (SpringBeanUtil.applicationContext == null) {
+			SpringBeanUtil.applicationContext = applicationContext;
 		}
-		System.out.println("---------------------------------------------------------------------");
-
-		System.out.println("---------------------------------------------------------------------");
-
-		System.out.println("---------------me.shijunjie.util.SpringUtil------------------------------------------------------");
-
-		System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext="
-						+ SpringUtil.applicationContext + "========");
-
-		System.out.println("---------------------------------------------------------------------");
+		LOGGER.info("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext="
+						+ SpringBeanUtil.applicationContext + "========");
 	}
 
 	// 获取applicationContext

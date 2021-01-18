@@ -1,6 +1,6 @@
 package org.spring.boot.wechat.response;
 
-import org.spring.boot.wechat.entity.Voice;
+import org.spring.boot.wechat.message.Voice;
 
 public class VoiceMessage extends BaseMessage {
 	private Voice Voice;

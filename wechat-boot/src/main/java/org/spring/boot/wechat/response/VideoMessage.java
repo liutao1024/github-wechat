@@ -1,6 +1,6 @@
 package org.spring.boot.wechat.response;
 
-import org.spring.boot.wechat.entity.Video;
+import org.spring.boot.wechat.message.Video;
 
 public class VideoMessage extends BaseMessage {
 	private Video Video;
