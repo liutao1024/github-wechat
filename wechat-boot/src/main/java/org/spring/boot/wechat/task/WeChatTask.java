@@ -63,7 +63,7 @@ public class WeChatTask {
 	/**
 	 * @Author LiuTao @Date 2021年1月18日 下午2:12:01 
 	 * @Title: sendMassageToAll 
-	 * @Description: 群发消息(订阅好每天1条)
+	 * @Description: 群发消息(订阅号每天1条)
 	 */
 	public void sendMassageToAll(){
 		

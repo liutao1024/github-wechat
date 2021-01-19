@@ -65,7 +65,7 @@ public class BasicUtil{
 			date = calendar.getTime();
 			return SIMPLEDATEFORMAT.format(date);
 		} catch (Exception e) {
-			System.out.println("日期:"+ srcDateStr +",格式不对");
+			LOGGER.info("日期:"+ srcDateStr +",格式不对");
 		}
 		return null;
 	}
@@ -403,7 +403,7 @@ public class BasicUtil{
             }  
         }else {
         	String filePath = file.getPath();  
-        	System.out.println(filePath);
+        	LOGGER.info(filePath);
         	if(filePath.endsWith(".java")){  
         		String name1 = filePath.substring(filePath.indexOf("java")+5, filePath.length());  
         		String name2 = name1.replaceAll("\\\\", ".");  

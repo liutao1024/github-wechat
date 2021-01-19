@@ -256,17 +256,23 @@ public class HttpUtils {
 		}
 		return reqUrl.trim() + "?" + query.toString().trim();
 	}
+	static RedisUtil redis = SpringBeanUtil.getBean(RedisUtil.class);
+	public static Object get(String key){
+		return redis.get(key);
+	}
+	public static String getProperty(String key){
+		return PropertiesUtil.getProperty("weixin.mediaUrl");
+	}
 	
 	public String urlStr;
-	static RedisUtil redis = SpringBeanUtil.getBean(RedisUtil.class);
 	public HttpUtils() {
-		urlStr = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token="
+		urlStr = PropertiesUtil.getProperty("weixin.mediaUrl")
 				+ (String) redis.get("access_token")
 				+ "&type=image";
 	}
 
 	public HttpUtils(String type) {
-		urlStr = "https://file.api.weixin.qq.com/cgi-bin/media/upload?access_token="
+		urlStr = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token="
 				+ (String) redis.get("access_token")
 				+ "&type="
 				+ type;
@@ -286,7 +292,8 @@ public class HttpUtils {
 		LOGGER.info(access_token);
 //		String access_token = (String) redisUtil.get("access_token");
 //		String imageUrl = mediaUrl.trim() + "access_token" + "&type=image";
-		String imageUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
+		String imageUrl = PropertiesUtil.getProperty("weixin.mediaUrl") + access_token + "&type=image";
+//		String imageUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
 		LOGGER.info(imageUrl);
 		/**
 		 * No subject alternative DNS name matching file.api.weixin.qq.com found.
@@ -464,7 +471,7 @@ public class HttpUtils {
 		} catch (KeyManagementException e) {
 			e.printStackTrace();
 		}
-        System.out.println(urlStr);
+		LOGGER.info(urlStr);
         URL urlobj = new URL(urlStr);
         // 使用HttpURLConnection连接
         HttpURLConnection con = (HttpURLConnection) urlobj.openConnection();
@@ -525,7 +532,7 @@ public class HttpUtils {
             }
         }
         JSONObject jsonObj = (JSONObject) JSON.parse(result);
-        System.out.println(jsonObj);
+        LOGGER.info(jsonObj.toJSONString());
         String typeName = "media_id";
         //当类型不是image时,返回的不再是media_id这个属性.而是将其类型作为前缀返回
         if (!"image".equals(type)) {

@@ -37,7 +37,7 @@ public class MsgDispatcher {
     	String msgType = map.get("MsgType");// 消息类型
 		String openid = map.get("FromUserName"); // 用户openid
 		String mpid = map.get("ToUserName"); // 公众号原始ID
-		String content = map.get("Content");//
+		String content = map.get("Content");// 文本内容
         if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_TEXT)) { // 文本消息
         	LOGGER.info("==============这是文本消息！==============");
         	// 普通文本消息
@@ -48,13 +48,12 @@ public class MsgDispatcher {
         	txtmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_TEXT);
         	
         	StringBuffer sb = new StringBuffer();
-			sb.append("欢迎关注史上最帅公众号：\n\n ");
-			sb.append("1、歌德你好   \n\n ");
-			sb.append("2、听首歌吧   \n\n ");
-			sb.append("3、语音回复   \n\n ");
-			sb.append("回复?调出主菜单哦哦   \n ");
+			sb.append("欢迎关注小鸟会飞公众号:\n\n");
+			sb.append("1.你好birdie\n\n");
+			sb.append("2.听首歌吧\n\n");
+			sb.append("3.语音回复\n\n");
+			sb.append("回复?调出主菜单哦\n");
 			String context = sb.toString();
-//        	txtmsg.setContent("你好,欢迎您的关注！严楚瑶");
         	txtmsg.setContent(context);
         	
         	if ("1".equals(content)) {
@@ -76,11 +75,11 @@ public class MsgDispatcher {
                 Map<String, String> fileMap = new HashMap<String, String>();
                 fileMap.put("userfile", filepath);
                 String mediaidrs = util.formUpload(textMap, fileMap);
-                System.out.println(mediaidrs);
+                LOGGER.info(mediaidrs);
                 
                
                 String mediaid =  (String)((JSONObject) JSON.parse(mediaidrs)).get("thumb_media_id");
-                System.out.println(mediaid);
+                LOGGER.info(mediaid);
                 music.setTitle("十年");
                 music.setThumbMediaId(mediaid);
                 music.setDescription("十年——陈奕迅");
@@ -90,10 +89,10 @@ public class MsgDispatcher {
                 return WeChatUtil.musicMessageToXml(mucmsg);
             } else if ("3".equals(content)) {
                 txtmsg.setContent("语音回复！");
-            } else if ("？".equals(content)) {
+            } else if ("?".equals(content)) {
                 txtmsg.setContent(context);
             } else {
-                txtmsg.setContent("你好，欢迎来到gede博客！");
+                txtmsg.setContent("你好,欢迎您的关注！");
             }
         	
         	return WeChatUtil.textMessageToXml(txtmsg);

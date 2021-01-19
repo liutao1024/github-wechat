@@ -135,7 +135,14 @@ public class HomeController {
 		}
 		
     }
-	
-	
-	
+    /**
+     * @Author LiuTao @Date 2021年1月19日 上午11:16:37 
+     * @Title: hello 
+     * @Description: TODO(Describe) 
+     * @return
+     */
+    @RequestMapping("/hello")
+	public String hello(){
+		return "hello";
+	}
 }

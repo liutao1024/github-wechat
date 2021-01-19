@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 //import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort;
 
@@ -18,9 +20,8 @@ import org.springframework.data.domain.Sort;
  */
 
 public class CommUtil extends BasicUtil{//继承自BasicUtil
-	
+	private static final Logger LOGGER = Logger.getLogger(CommUtil.class);
 	public final static String SORT="ASC";
-
 	public final static String DOT = ".";
 	public final static String ACROSS = "-";
 	public final static String JOB = ".job.";
@@ -150,7 +151,7 @@ public class CommUtil extends BasicUtil{//继承自BasicUtil
 	            }  
 	        }  
 	    } catch (Exception e) {  
-	        System.out.println("类转换成map时遇到:" + e.getMessage());  
+	    	LOGGER.info("类转换成map时遇到:" + e.getMessage());  
 	    }  
 	    return rstMap;  
 	}

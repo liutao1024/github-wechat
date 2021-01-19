@@ -8,10 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
 public class ComparatorUtil implements Comparator<Object>{
+	private static final Logger LOGGER = Logger.getLogger(ComparatorUtil.class);
 	private int order;//1:升序,-1:降序
 	private String[] sortArray;//用于排序的属性数组
 	private Comparator<Object> comparator;//排序规则
@@ -85,7 +88,7 @@ public class ComparatorUtil implements Comparator<Object>{
 			Method method = object.getClass().getMethod(getter, new Class[] {});
 			value = method.invoke(object, new Object[] {});
 		} catch (Exception e) {
-			System.out.println("属性不存在");
+			LOGGER.info("属性不存在");
 			value = null;
 		}
 		return value;

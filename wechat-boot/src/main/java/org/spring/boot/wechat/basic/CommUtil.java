@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 
 /**
@@ -16,6 +18,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.S
  * @Description: 公共工具类/反射运用
  */
 public class CommUtil extends BasicUtil{//继承自BasicUtil
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommUtil.class);
 	public final static String SORT="ASC";
 	public final static String DOT = ".";
 	public final static String ACROSS = "-";
@@ -145,7 +148,7 @@ public class CommUtil extends BasicUtil{//继承自BasicUtil
 	            }  
 	        }  
 	    } catch (Exception e) {  
-	        System.out.println("类转换成map时遇到:" + e.getMessage());  
+	    	LOGGER.info("类转换成map时遇到:" + e.getMessage());  
 	    }  
 	    return rstMap;  
 	}
