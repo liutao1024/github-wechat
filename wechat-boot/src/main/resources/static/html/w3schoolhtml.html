@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Insert title here</title>
+		<!-- html的css有三种定义方式
+			1.外部样式表
+			2.内部样式表:某个个html文挡中需要
+			3.内联样式:在个别元素中,用样式属性来定义
+		 -->
+		<link type="text/css" rel="stylesheet" href="../style/w3school.css">
+		<style type="text/css">
+			/* style 属性的作用:
+				提供了一种改变所有 HTML 元素的样式的通用方法.
+				样式是 HTML 4 引入的,它是一种新的首选的改变 HTML 元素样式的方式.通过 HTML 样式,能够通过使用 style 属性直接将样式添加到 HTML 元素,或者间接地在独立的样式表中（CSS 文件）进行定义.
+			 */
+			 .spanstyle{
+			 	border: 2;
+			 	background-color: red;
+			 }
+		</style>
+	</head>
+	<body bgcolor="gray"><!-- 定义html文档主体 -->
+		<h6>h1-h6标签字体加粗由大到小</h6>
+		<p>p标签定义段落</p>
+		<a href="http://www.baidu.com">a标签定义连接</a>
+		<img alt="" src="../images/icons.png" width="" height=""><!-- img标签定义图片 -->
+		<!-- html文档是由html元素嵌套组成;元素指标签开始到结束;元素内容指开始标签到结束标签之间的内容,可为空;大多元素拥有属性 -->
+		<br>
+		<br/>
+		<!-- 无内容元素以上两种写法都行,推荐后一种 -->
+		<!-- 属性为html元素提供附加信息:
+				属性总是以名称/值对的形式出现,比如:name="value",id='myid'.
+				属性总是在 HTML 元素的开始标签中规定.
+				始终为属性值加引号
+					属性值应该始终被包括在引号内.双引号是最常用的,不过使用单引号也没有问题.
+					在某些个别的情况下,比如属性值本身就含有双引号,那么您必须使用单引号,例如:
+					name='Bill "HelloWorld" Gates'
+		 -->
+		 <h1 align="center">h1标签属性:居中展示;下方有水平线	</h1>
+		 <hr /><!-- 添加水平线 -->
+		 <p>在此处换行<br/>第二行</p>
+		 <!-- 空的段落标记时用<br />代替<p></p> -->
+		 <p style="background-color: blue;font-family: arial;color: black;font-size: 20px;text-align: center;">
+		 	style属性设置背景颜色/背景板/字体系列/颜色/字体尺寸以及文字居中
+		 </p>
+		 <!--  <center></center> 已被废弃
+		 <font></font>
+		 <basefont size="">
+		 <s></s>
+		 <strike></strike>
+		 <u></u>定义下划线 -->
+		 <!-- 文本格式化标签 -->
+		 <p style="color: red;text-align: center;">文本格式化标签<br/>
+			 <b>b标签定义粗体文本</b><br/>
+			 <big>big标签定义大号字</big><br/>
+			 <em>em标签定义着重文字</em><br/>
+			 <i>i标签定义斜体字</i><br/>
+			 <small>small标签定义小号字</small><br/>
+			 <strong>strong标签定义加重语气</strong><br/>
+			 <sub>sub标签定义下标字</sub><br/>
+			 <sup>sup标签定义上标字</sup><br/>
+			 <ins>ins标签定义插入字</ins><br/>
+			 <del>del标签定义删除字</del><br/>
+			 <s>s标签已不赞成使用.使用 del标签代替</s><br/>
+			 <strike>strike标签已不赞成使用.使用 del标签代替</strike><br/>
+			 <u>u标签已不赞成使用.使用样式(style)代替</u>
+		 </p>
+		 <p>计算机输出标签<br/></p>
+		 <code> 定义计算机代码<br/>
+		 	var person = { 
+			 		firstName:"Bill", 
+			 		lastName:"Gates", 
+			 		age:50, 
+			 		eyeColor:"blue" 
+		 		}
+		 </code><br/>
+		 <code>
+		 </code><br/>
+			 <pre>
+			 	var person = {
+					firstName:"Bill", 
+			 		lastName:"Gates", 
+			 		age:50, 
+			 		eyeColor:"blue" 
+		 		}
+			 </pre>
+		 <kbd>定义键盘码</kbd><br/>
+		 <samp>定义计算机代码样本</samp> <br/>
+		 <tt>定义打字机代码</tt><br/>
+		 <var>定义变量</var><br/>
+		 <pre>定义预格式文本</pre>
+		 <!-- <listing>不赞成使用.使用 pre代替</listing>
+		 <plaintext>不赞成使用.使用 pre代替.</plaintext>
+		 <xmp>不赞成使用.使用pre代替.</xmp> -->
+		 <p>这儿定义一个引用<q>我是一个引用</q></p>
+		 <p>以下内容引用自 WWF 的网站：</p>
+		 <blockquote cite="http://www.worldwildlife.org/who/index.html">
+		 	五十年来,WWF 一直致力于保护自然界的未来.
+		 	世界领先的环保组织,WWF 工作于 100 个国家,
+		 	并得到美国一百二十万会员及全球近五百万会员的支持.
+		 </blockquote>
+		 <p><abbr title="World Health Organization">WHO</abbr> 成立于1948年.</p>
+		 <p><dfn title="World Health Organization">WHO</dfn> 成立于1948年.</p>
+		 <p><dfn><abbr title="World Health Organization">WHO</abbr></dfn> 成立于1948年.</p>
+		 <p><dfn>WHO</dfn> World Health Organization 成立于1948年.</p>
+		 <!-- 联系信息 -->
+		 <address>
+		 	<p>作者:<a href="https://mail.163.com/">刘涛</a>liutao</p><br/>
+		 	China<br/>
+		 	<p><cite>The Scream</cite> by Edward Munch. Painted in 1893.</p><!-- cite书名号<> -->
+		 </address>
+		 <a href="http://www.baidu.com" target="_blank">百度一下</a><!-- a标签定义连接,href属性定义连接地址,target属性定义连接打开方式 -->
+		 <a id="tips">注意事项...一段文字</a><!-- 命名锚 -->
+		 <a href="#tips">提示</a><!-- 点击 提示 跳转到命名锚处 -->
+		 <!-- 图片 -->
+		 <p>
+		 	这是一张图片:<img alt="预备替换的文字(无法载入图片时,提示文本)" src="http://www.w3school.com.cn/images/boat.gif">
+		 </p>
+		 <map name="baiduMap"></map>
+		 <img src="../images/planets.jpg" border="0" usemap="#planetmap" alt="Planets" />
+		 <map name="planetmap" id="planetmap">
+		 	<area shape="circle" coords="180,139,14" href ="venus.html" alt="Venus" />
+		 	<area shape="circle" coords="129,161,10" href ="merglobe.html" alt="Mercury" />
+		 	<area shape="rect" coords="0,0,110,260" href ="sun.html" alt="Sun" />
+		 </map>
+		 <!-- 
+		 	<table> 元素的作用是显示表格化的数据
+		 	table标签中
+		 		border属性设置边框距离
+		 		frame
+		  -->
+		 <table border="4" cellspacing="10" cellpadding="10" bgcolor="blue" frame="void">
+		 	<caption align="right">表格标题</caption>
+		 	<thead>
+		 		<tr>
+		 			<th bgcolor="green">商品名称</th>
+		 			<th>商品单价</th>
+		 			<th>商品颜色</th>
+		 			<th>商品成色</th>
+		 			<th>商品库存</th>
+		 		</tr>
+		 	</thead>
+		 	<tbody>
+		 		<tr bgcolor="red">
+			 		<td>Iphone11</td>
+			 		<td>5999.00</td>
+			 		<td>白色;黑色</td>
+			 		<td>全新</td>
+			 		<td>1000</td>
+		 		</tr>
+		 		<tr>
+			 		<td>IphoneX</td>
+			 		<td>5999.00</td>
+			 		<td>白色;黑色</td>
+			 		<td>全新</td>
+			 		<td>800</td>
+		 		</tr>
+		 		<tr>
+			 		<td>Airpod_2</td>
+			 		<td>999.00</td>
+			 		<td>白色</td>
+			 		<td>全新</td>
+			 		<td>50</td>
+		 		</tr>
+		 		<tr>
+			 		<td>Airpod_1</td>
+			 		<td>799.00</td>
+			 		<td>白色</td>
+			 		<td>全新</td>
+			 		<td>&nbsp;</td>
+		 		</tr>
+		 	</tbody>
+		 	<tr></tr>
+		 </table>
+		 <table border="1" width="12px" height="5px" align="center" background="black" bgcolor="read"><!-- 定义html文档的表格,border为表格边框的属性附加信息-->
+		 	<caption align="top">定义表格标题</caption><!--  -->
+		 	<col>
+		 	<colgroup></colgroup><!-- 定义表格的组 -->
+		 	<del></del><!-- 删除 -->
+		 	<ins></ins><!-- 下划线 -->
+		 	<tr></tr>
+		 	<thead><!-- 定义表格的页眉 -->
+		 		<del>
+		 			<a></a>
+		 		</del>
+		 		<ins>
+		 			<a></a>
+		 		</ins>
+		 		<tr>
+		 			<del></del>
+		 			<ins></ins>
+		 			<td></td>
+		 			<th></th>
+		 		</tr>
+		 	</thead>
+		 	<tbody>
+		 		<del>
+		 			<a></a>
+		 		</del>
+		 		<ins>
+		 			<a></a>
+		 		</ins>
+		 		<tr>
+		 			<del></del>
+		 			<ins></ins>
+		 			<td></td>
+		 			<th></th>
+		 		</tr>
+		 	</tbody>
+		 	<tfoot>
+		 		<del>
+		 			<a></a>
+		 		</del>
+		 		<ins>
+		 			<a></a>
+		 		</ins>
+		 		<tr>
+		 			<del></del>
+		 			<ins></ins>
+		 			<td></td>
+		 			<th></th>
+		 		</tr>
+		 	</tfoot>
+		 </table>
+		 <!-- 无序列表 -->
+		 <ul>
+		 	<li>Java</li>
+		 	<li>Python</li>
+		 	<li>C#</li>
+		 </ul>
+		 <!-- 有序列表 -->
+		 <ol>
+		 	<li>MySQL</li>
+		 	<li>Oracle</li>
+		 	<li>DB2</li>
+		 	<li>SQLServer</li>
+		 </ol>
+		 <!-- 自定义列表 -->
+		 <dl>
+		 	<dt>计算机</dt>
+		 	<dd>用来计算的仪器 ... ...</dd>
+		 	<dt>显示器</dt>
+		 	<dd>以视觉方式显示信息的装置 ... ...</dd>
+		 </dl>
+		 <!-- 块级元素 -->
+		 <div id="theDiv" class="theDiv" style="color: #00FF00;background-color: black;width: 500px;height: 300px;" align="justify">
+		 	<h1>块级元素</h1>
+		 	<p>黄色块块</p>
+		 </div>
+		 <span class="spanstyle">
+		 	这是一个由class设置的背景颜色为红色的span
+		 </span><br/>
+		 
+		 <a href="http://www.w3school.com.cn">This is a link</a>
+		 <address>
+		 	<p>作者:<a href="https://mail.163.com/">刘涛</a>liuta</p>
+		 </address>
+	</body>
+</html>
