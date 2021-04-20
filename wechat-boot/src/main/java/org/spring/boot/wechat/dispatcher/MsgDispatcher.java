@@ -57,7 +57,7 @@ public class MsgDispatcher {
         	txtmsg.setContent(context);
         	
         	if ("1".equals(content)) {
-                txtmsg.setContent("歌德你好！");
+                txtmsg.setContent("birdie你好！");
             } else if ("2".equals(content)) {
                 // Test test=new Test();
                 // test.image();

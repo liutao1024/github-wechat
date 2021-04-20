@@ -1,5 +1,7 @@
 package org.spring.boot.wechat.menu;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spring.boot.wechat.util.HttpUtils;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +10,8 @@ import com.alibaba.fastjson.JSONObject;
 
 @Component
 public class MenuMain {
+	// 打印日志工具
+	private static final Logger LOGGER = LoggerFactory.getLogger(MenuMain.class);
 	/**
 	 * @Author LiuTao @Date 2021年1月19日 上午11:04:18 
 	 * @Title: createMenu 
@@ -39,16 +43,16 @@ public class MenuMain {
 
 		JSONObject menujson = new JSONObject();
 		menujson.put("button", button);
-		System.out.println(menujson);
+		LOGGER.info(menujson.toJSONString());
 
 		// 这里为请求接口的url+号后面的是token,这里就不做过多对token获取的方法解释
 		String url = HttpUtils.getProperty("weixin.menueUrl") + HttpUtils.get("access_token");
 
 		try {
 			String rs = HttpUtils.sendPostBuffer(url, menujson.toJSONString());
-			System.out.println(rs);
+			LOGGER.info(rs);
 		} catch (Exception e) {
-			System.out.println("请求错误！");
+			LOGGER.info(e.getMessage());
 		}
 	}
 }

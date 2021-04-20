@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>firstVue</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+	<div id="firstVue">
+		<input type="number" v-model.number="my_step" />
+		<button v-on:click="clickButton">Add</button>
+		<p>{{my_total}}</p>
+	</div>
+</body>
+<script type="text/javascript">
+	//1.基础
+	var myVue = new Vue({
+		el : '#firstVue',
+		//数据
+		data : {
+			my_step : 1,
+			my_total : 0
+		},
+		//方法
+		methods : {
+			clickButton : function() {
+				this.my_total = this.my_total + this.my_step
+			}
+		},
+		//模版
+		template : {
+			
+		}
+	})
+	//2.组件
+	//定义button-counter组件
+	Vue.component('button-counter',
+			{
+				//定义数据
+    			data:function(){//一个组件的 data 选项必须是一个函数
+        			return {
+            			count: 0
+        			}
+    			},
+			    //定义方法
+			    methods:{
+			        clickAdd: function(){
+			            this.count++
+			        }
+			    },
+			    //组件模版
+	    		template:'<button @click="clickAdd">You clicked me {{count}} times</button>'
+
+			});
+</script>
+</html>

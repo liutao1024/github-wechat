@@ -17,8 +17,8 @@ public class MenuController {
 		this.menue = menue;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public void home() {
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public void createMenue() {
 		menue.createMenu();
 	}
 }
