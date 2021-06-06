@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.spring.boot.wechat.basic.CommUtil;
 import org.spring.boot.wechat.dispatcher.EventDispatcher;
 import org.spring.boot.wechat.dispatcher.MsgDispatcher;
+import org.spring.boot.wechat.types.MsgType;
 import org.spring.boot.wechat.util.WeChatUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,7 +116,7 @@ public class HomeController {
 		try {
 			Map<String, String> map = WeChatUtil.parseXml(request);
 			String msgType = map.get("MsgType");
-			if (WeChatUtil.REQ_MESSAGE_TYPE_EVENT.equals(msgType)) {
+			if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_EVENT)) {
 				request.setCharacterEncoding("UTF-8");
 				response.setCharacterEncoding("UTF-8");
 				String msgrsp = EventDispatcher.processEvent(map); // 进入事件处理

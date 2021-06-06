@@ -158,7 +158,7 @@
 					<mainClass>org.spring.boot.wechat.WechatApplication</mainClass>
 				</configuration>
 			</plugin>
-			<!-- 编译插件, 指定JDK版本 -->
+			<!-- 编译插件,指定JDK版本 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

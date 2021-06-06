@@ -13,6 +13,8 @@ import org.spring.boot.wechat.message.Music;
 import org.spring.boot.wechat.response.MusicMessage;
 import org.spring.boot.wechat.response.NewsMessage;
 import org.spring.boot.wechat.response.TextMessage;
+import org.spring.boot.wechat.types.MsgType;
+import org.spring.boot.wechat.types.Response;
 import org.spring.boot.wechat.util.HttpUtils;
 import org.spring.boot.wechat.util.WeChatUtil;
 
@@ -38,14 +40,14 @@ public class MsgDispatcher {
 		String openid = map.get("FromUserName"); // 用户openid
 		String mpid = map.get("ToUserName"); // 公众号原始ID
 		String content = map.get("Content");// 文本内容
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_TEXT)) { // 文本消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_TEXT)) { // 文本消息
         	LOGGER.info("==============这是文本消息！==============");
         	// 普通文本消息
         	TextMessage txtmsg = new TextMessage();
         	txtmsg.setToUserName(openid);
         	txtmsg.setFromUserName(mpid);
         	txtmsg.setCreateTime(new Date().getTime());
-        	txtmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_TEXT);
+        	txtmsg.setMsgType(Response.text.toString());
         	
         	StringBuffer sb = new StringBuffer();
 			sb.append("欢迎关注小鸟会飞公众号:\n\n");
@@ -65,7 +67,7 @@ public class MsgDispatcher {
                 mucmsg.setToUserName(openid);
                 mucmsg.setFromUserName(mpid);
                 mucmsg.setCreateTime(new Date().getTime());
-                mucmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_MUSIC);
+                mucmsg.setMsgType(Response.music.toString());
 
                 Music music = new Music();
                 HttpUtils util = new HttpUtils("thumb");
@@ -97,13 +99,13 @@ public class MsgDispatcher {
         	
         	return WeChatUtil.textMessageToXml(txtmsg);
         }
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息
         	LOGGER.info("==============这是图片消息！==============");
 			NewsMessage newmsg = new NewsMessage();
 			newmsg.setToUserName(openid);
 			newmsg.setFromUserName(mpid);
 			newmsg.setCreateTime(new Date().getTime());
-			newmsg.setMsgType(WeChatUtil.RESP_MESSAGE_TYPE_NEWS);
+			newmsg.setMsgType(Response.news.toString());
 			Article article = new Article();
 			article.setTitle("图文消息1"); // 图文消息标题
 			article.setDescription("这是图文消息1"); // 图文消息的描述
@@ -115,16 +117,16 @@ public class MsgDispatcher {
 			newmsg.setArticles(list);
 			return WeChatUtil.newsMessageToXml(newmsg);
         }
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_LINK)) { // 链接消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_LINK)) { // 链接消息
         	LOGGER.info("==============这是链接消息！==============");
         }
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_LOCATION)) { // 位置消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_LOCATION)) { // 位置消息
         	LOGGER.info("==============这是位置消息！==============");
         }
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_VIDEO)) { // 视频消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_VIDEO)) { // 视频消息
         	LOGGER.info("==============这是视频消息！==============");
         }
-        if (msgType.equals(WeChatUtil.REQ_MESSAGE_TYPE_VOICE)) { // 语音消息
+        if (msgType.equals(MsgType.REQ_MESSAGE_TYPE_VOICE)) { // 语音消息
         	LOGGER.info("==============这是语音消息！==============");
         }
         return null;

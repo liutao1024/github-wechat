@@ -261,12 +261,12 @@ public class HttpUtils {
 		return redis.get(key);
 	}
 	public static String getProperty(String key){
-		return PropertiesUtil.getProperty("weixin.mediaUrl");
+		return PropertiesUtil.getProperty("weixin.media.uploadUrl");
 	}
 	
 	public String urlStr;
 	public HttpUtils() {
-		urlStr = PropertiesUtil.getProperty("weixin.mediaUrl")
+		urlStr = PropertiesUtil.getProperty("weixin.media.uploadUrl")
 				+ (String) redis.get("access_token")
 				+ "&type=image";
 	}
@@ -292,7 +292,7 @@ public class HttpUtils {
 		LOGGER.info(access_token);
 //		String access_token = (String) redisUtil.get("access_token");
 //		String imageUrl = mediaUrl.trim() + "access_token" + "&type=image";
-		String imageUrl = PropertiesUtil.getProperty("weixin.mediaUrl") + access_token + "&type=image";
+		String imageUrl = PropertiesUtil.getProperty("weixin.media.uploadUrl") + access_token + "&type=image";
 //		String imageUrl = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + access_token + "&type=image";
 		LOGGER.info(imageUrl);
 		/**
