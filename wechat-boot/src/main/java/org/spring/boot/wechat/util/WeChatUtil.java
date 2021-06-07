@@ -110,7 +110,6 @@ public class WeChatUtil {
 		}
 		MessageDigest md = null;
 		String tmpStr = null;
-
 		try {
 			md = MessageDigest.getInstance("SHA-1");
 			// 将三个参数字符串拼接成一个字符串进行 sha1 加密
