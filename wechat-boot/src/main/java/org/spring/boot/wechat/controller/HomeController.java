@@ -1,13 +1,5 @@
 package org.spring.boot.wechat.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spring.boot.wechat.basic.CommUtil;
@@ -16,10 +8,21 @@ import org.spring.boot.wechat.dispatcher.MsgDispatcher;
 import org.spring.boot.wechat.entity.User;
 import org.spring.boot.wechat.repository.UserRepository;
 import org.spring.boot.wechat.types.MsgType;
+import org.spring.boot.wechat.util.SpringBeanUtil;
 import org.spring.boot.wechat.util.WeChatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author LiuTao @Date 2021年1月14日 下午9:48:38
@@ -148,4 +151,20 @@ public class HomeController {
 		return "hello";
 	}
 
+	@Autowired
+	private UserRepository userRepository;
+    @RequestMapping("/toFindAll")
+	@ResponseBody
+    public List<User> findAll(){
+    	List<User> users = userRepository.findAll();
+		for (int i = 0; i < users.size(); i++) {
+			System.out.println(users.get(i));
+		}
+		List<User> userList = SpringBeanUtil.getBean(UserRepository.class).findAll();
+		for (User user : userList) {
+			System.out.println(user);
+		}
+//		return "toFindAll";
+    	return userRepository.findAll();
+	}
 }
