@@ -2,6 +2,7 @@ package org.spring.boot.wechat.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.spring.boot.wechat.basic.CommUtil;
 import org.spring.boot.wechat.dispatcher.EventDispatcher;
 import org.spring.boot.wechat.dispatcher.MsgDispatcher;
+import org.spring.boot.wechat.entity.User;
+import org.spring.boot.wechat.repository.UserRepository;
 import org.spring.boot.wechat.types.MsgType;
 import org.spring.boot.wechat.util.WeChatUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author LiuTao @Date 2021年1月14日 下午9:48:38
@@ -146,4 +147,5 @@ public class HomeController {
 	public String hello(){
 		return "hello";
 	}
+
 }

@@ -3,7 +3,6 @@ bin/
 .settings/
 .classpath
 .project
-.gitignore
 target/
 bin/
 .settings/
@@ -11,9 +10,10 @@ bin/
 .classpath
 .factorypath
 .project
-.gitignore
 .springBeans
 *.log
 .gz
 .log
 *.gz
+*.iml
+.idea/
